@@ -3,14 +3,12 @@ package tictactoe;
 import tictactoe.GameBoard.Board;
 import tictactoe.GamePlayer.Player;
 import tictactoe.GamePlayer.PlayerType;
-import tictactoe.GamePlayer.CirclePlayer;
-import tictactoe.GamePlayer.CrossPlayer;
 import tictactoe.GameGui.MainFrame;
 
 public class Game {
     private Board board;
-    private CrossPlayer crossPlayer;
-    private CirclePlayer circlePlayer;
+    private Player crossPlayer;
+    private Player circlePlayer;
     private Player currentPlayer;
     private MainFrame frame;
     
@@ -23,8 +21,8 @@ public class Game {
     }
     
     private void initPlayers() {
-        crossPlayer = new CrossPlayer(board);
-        circlePlayer = new CirclePlayer(board);
+        crossPlayer = new Player(board, PlayerType.Cross);
+        circlePlayer = new Player(board, PlayerType.Circle);
         currentPlayer = crossPlayer;
     }
     
