@@ -9,16 +9,16 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import tictactoe.Game;
 import tictactoe.GamePlayer.Player;
-import tictactoe.GamePlayer.PlayerType;
 
 public class MainFrame extends JFrame implements ActionListener{
     
-    private ArrayList<JButton> squares;         //Squares that the player can mark X or O.
+    private final List<JButton> squares = new ArrayList<>();         //Squares that the player can mark X or O.
     private JPanel SquaresPanel = new JPanel(); //The panel that holds the squares on the window.
     private Game game;
     
@@ -26,7 +26,6 @@ public class MainFrame extends JFrame implements ActionListener{
     private final int WinWidth = 300;
     private final int nrOffSquares = 9;
             
-    
     public MainFrame(Game game) {
         super("Tic Tac Toe");
         this.game = game;
@@ -44,8 +43,7 @@ public class MainFrame extends JFrame implements ActionListener{
     }
     
     private void initSquares() {
-        squares = new ArrayList<>();
-        
+      
         for (int i = 0; i < nrOffSquares; i++) {
             JButton b = new JButton();
             b.setFont(b.getFont().deriveFont(18.0f));
@@ -62,11 +60,7 @@ public class MainFrame extends JFrame implements ActionListener{
     }
    
     public void markSquare(int i, Player p) {
-        if (p.getType() == PlayerType.Cross) {
-            squares.get(i).setText("X");
-        }else {
-            squares.get(i).setText("O");
-        }
+        squares.get(i).setText(p.getType().toString());
     }
     public void disableAllSquares() {
         for (int i = 0; i < nrOffSquares; i++)

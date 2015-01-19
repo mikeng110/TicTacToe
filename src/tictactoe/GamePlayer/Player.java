@@ -3,6 +3,7 @@ package tictactoe.GamePlayer;
 import tictactoe.GameBoard.Board;
 
 public class Player {
+ 
     private PlayerType type;
     private Board board;
     

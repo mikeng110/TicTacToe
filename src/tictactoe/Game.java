@@ -1,31 +1,21 @@
 package tictactoe;
 
 import tictactoe.GameBoard.Board;
+import tictactoe.GameGui.MainFrame;
 import tictactoe.GamePlayer.Player;
 import tictactoe.GamePlayer.PlayerType;
-import tictactoe.GameGui.MainFrame;
 
 public class Game {
-    private Board board;
-    private Player crossPlayer;
-    private Player circlePlayer;
-    private Player currentPlayer;
+    
+    private final Board board = new Board();
+    private final Player crossPlayer = new Player(board, PlayerType.Cross);
+    private final Player circlePlayer = new Player(board, PlayerType.Circle);
+    private Player currentPlayer = crossPlayer;
     private MainFrame frame;
     
     public Game() {
-        
-        board = new Board();        //init Game Board.
-        frame = new MainFrame(this); //init Gui 
-        
-        initPlayers();
+        frame = new MainFrame(this);
     }
-    
-    private void initPlayers() {
-        crossPlayer = new Player(board, PlayerType.Cross);
-        circlePlayer = new Player(board, PlayerType.Circle);
-        currentPlayer = crossPlayer;
-    }
-    
     public void togglePlayer() {
         if (currentPlayer.equals(crossPlayer)) {
             currentPlayer = circlePlayer;
@@ -49,56 +39,47 @@ public class Game {
     }
             
     /**
-     * Display the board in the console.
+     * Display the board in the console, used for debbuging purposes
      */
     public void display() {
         PlayerType markType;
        
         for (int i = 0; i < 3; i++) {
-            
             for (int j = 0; j < 3; j++) {
                 markType = board.getSquare(i, j).getMark();
-                
-                if (markType  == PlayerType.None) {
-                    System.out.print("*");
-                }
-                else if(markType == PlayerType.Cross) {
-                    System.out.print("X");
-                }
-                else if(markType == PlayerType.Circle) {
-                    System.out.print("O");
-                }
+                System.out.print(markType.toString());
             }
             System.out.print("\n");
         }
+        System.out.print("\n");
     }
-   
+    
+   private PlayerType getMark(int i, int j)  //rename 
+   {
+       return board.getSquare(i, j).getMark();
+   }
     public PlayerType checkDiag() {
         
-        if (board.getSquare(0, 0).getMark() == board.getSquare(1, 1).getMark() &&
-                board.getSquare(0, 0).getMark() == board.getSquare(2, 2).getMark()) {
-            return board.getSquare(0, 0).getMark();
+        if (getMark(0,0) == getMark(1,1) && getMark(0,0) == getMark(2,2)) {
+            return getMark(0,0);
         }
-        if (board.getSquare(0, 2).getMark() == board.getSquare(1, 1).getMark() &&
-                board.getSquare(0, 2).getMark() == board.getSquare(2, 0).getMark()) {
-            return board.getSquare(0, 2).getMark();
+        if (getMark(0,2) == getMark(1,1) && getMark(0,2) == getMark(2,0)) {
+            return getMark(0,2);
         }
         return PlayerType.None;
     }
     
     public PlayerType checkCol(int col) {
-        if (board.getSquare(0, col).getMark() == board.getSquare(1, col).getMark() &&
-                board.getSquare(0, col).getMark() == board.getSquare(2, col).getMark()){
-            return board.getSquare(0, col).getMark();
+        if (getMark(0, col) == getMark(1, col) && getMark(0,col) == getMark(2, col)){
+            return getMark(0,col);
         }
         return PlayerType.None;
     }
     
     public PlayerType checkRow(int row) {
         
-        if (board.getSquare(row, 0).getMark() == board.getSquare(row, 1).getMark() &&
-                board.getSquare(row, 0).getMark() == board.getSquare(row, 2).getMark()) { //row full
-            return board.getSquare(row, 0).getMark();
+        if (getMark(row, 0) == getMark(row, 1) && getMark(row, 0) == getMark(row, 2)) { //row full
+            return getMark(row, 0);
         }
         
         return PlayerType.None;
