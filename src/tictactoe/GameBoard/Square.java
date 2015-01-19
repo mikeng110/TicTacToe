@@ -1,10 +1,8 @@
-package tictactoe;
+package tictactoe.GameBoard;
 
-/**
- *
- * @author Mikael
- */
-class Square {
+import tictactoe.GamePlayer.PlayerType;
+
+public class Square {
     private PlayerType mark = PlayerType.None;
 
     public PlayerType getMark() {

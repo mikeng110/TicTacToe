@@ -1,9 +1,7 @@
-package tictactoe;
+package tictactoe.GamePlayer;
 
-/**
- *
- * @author Mikael
- */
+import tictactoe.GameBoard.Board;
+
 public class CrossPlayer extends Player {
 
     private Board board;

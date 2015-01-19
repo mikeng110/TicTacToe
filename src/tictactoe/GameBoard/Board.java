@@ -1,11 +1,8 @@
-package tictactoe;
+package tictactoe.GameBoard;
 
+import tictactoe.GamePlayer.PlayerType;
 
-/**
- *
- * @author Mikael
- */
-class Board {
+public class Board {
     private Square  board[][] = new Square [3][3];
     public Board() {
         for (int i = 0; i < 3; i++) {

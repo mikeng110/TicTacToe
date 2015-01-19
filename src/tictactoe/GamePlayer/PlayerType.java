@@ -1,9 +1,6 @@
-package tictactoe;
+package tictactoe.GamePlayer;
 
-/**
- *
- * @author Mikael
- */
+
 public enum PlayerType {
     None,
     Cross,

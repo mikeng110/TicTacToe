@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package tictactoe.Gui;
+package tictactoe.GameGui;
 
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -13,45 +13,63 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import tictactoe.Game;
-import tictactoe.Player;
-import tictactoe.PlayerType;
+import tictactoe.GamePlayer.Player;
+import tictactoe.GamePlayer.PlayerType;
 
 public class MainFrame extends JFrame implements ActionListener{
-    private JPanel panel = new JPanel();
-    private ArrayList<JButton> squares;
+    
+    private ArrayList<JButton> squares;         //Squares that the player can mark X or O.
+    private JPanel SquaresPanel = new JPanel(); //The panel that holds the squares on the window.
     private Game game;
+    
+    private final int WinHeight = 300;
+    private final int WinWidth = 300;
+    private final int nrOffSquares = 9;
+            
     
     public MainFrame(Game game) {
         super("Tic Tac Toe");
-        setSize(300,300);
+        this.game = game;
+        
+        initWindow();
+        initSquares();  
+        initSquaresPanel();
+        
+    }
+    private void initWindow() {
+        
+        setSize(WinWidth, WinHeight);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setVisible(true);
-        
-        this.game = game;
-        panel.setLayout(new GridLayout(3,3));
-        
+    }
+    
+    private void initSquares() {
         squares = new ArrayList<>();
         
-        for (int i = 0; i < 9; i++) {
+        for (int i = 0; i < nrOffSquares; i++) {
             JButton b = new JButton();
             b.setFont(b.getFont().deriveFont(18.0f));
             b.addActionListener(this);
-            panel.add(b);
+            SquaresPanel.add(b);
             squares.add(b);
         }
-        
-        add(panel);
     }
-    public void setSquare(int i, Player p) {
+     
+    private void initSquaresPanel() {
+        
+        SquaresPanel.setLayout(new GridLayout(3,3)); 
+        add(SquaresPanel);
+    }
+   
+    public void markSquare(int i, Player p) {
         if (p.getType() == PlayerType.Cross) {
             squares.get(i).setText("X");
         }else {
             squares.get(i).setText("O");
         }
-        
     }
     public void disableAllSquares() {
-        for (int i = 0; i < 9; i++)
+        for (int i = 0; i < nrOffSquares; i++)
             disableSquare(i);
     }
     public void disableSquare(int i) {
@@ -61,9 +79,10 @@ public class MainFrame extends JFrame implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent e) {
         JButton b = (JButton) e.getSource();
-        for (int i = 0; i < 9; i++) {
-            if (b.equals(squares.get(i))) {
-                game.makeMove(i);
+        
+        for (int i = 0; i < nrOffSquares; i++) {
+            if (b.equals(squares.get(i))) {        //if the ith square is clicked
+                game.makeMove(i);                  //Make a move on the ith square.
             }
         } 
     }

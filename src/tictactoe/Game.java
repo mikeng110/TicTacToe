@@ -1,29 +1,33 @@
 package tictactoe;
 
-import tictactoe.Gui.MainFrame;
+import tictactoe.GameBoard.Board;
+import tictactoe.GamePlayer.Player;
+import tictactoe.GamePlayer.PlayerType;
+import tictactoe.GamePlayer.CirclePlayer;
+import tictactoe.GamePlayer.CrossPlayer;
+import tictactoe.GameGui.MainFrame;
 
-/**
- *
- * @author Mikael
- */
 public class Game {
     private Board board;
     private CrossPlayer crossPlayer;
     private CirclePlayer circlePlayer;
-    
     private Player currentPlayer;
     private MainFrame frame;
     
     public Game() {
         
-        board = new Board();
+        board = new Board();        //init Game Board.
+        frame = new MainFrame(this); //init Gui 
+        
+        initPlayers();
+    }
+    
+    private void initPlayers() {
         crossPlayer = new CrossPlayer(board);
         circlePlayer = new CirclePlayer(board);
         currentPlayer = crossPlayer;
-
-        frame = new MainFrame(this);
-        
     }
+    
     public void togglePlayer() {
         if (currentPlayer.equals(crossPlayer)) {
             currentPlayer = circlePlayer;
@@ -31,17 +35,24 @@ public class Game {
             currentPlayer = crossPlayer;
         }
     }
+    /*
+        Called when the player clicks on the ith square.
+    */
     public void makeMove(int i) {
+        //find what row and col, the i:th square lies on.
         int row = i/3;
         int col = i%3;
         
         currentPlayer.makeMove(row, col);
-        frame.setSquare(i, currentPlayer);
+        frame.markSquare(i, currentPlayer);
         frame.disableSquare(i);
         togglePlayer();
         display();
     }
             
+    /**
+     * Display the board in the console.
+     */
     public void display() {
         PlayerType markType;
        
@@ -63,6 +74,7 @@ public class Game {
             System.out.print("\n");
         }
     }
+   
     public PlayerType checkDiag() {
         
         if (board.getSquare(0, 0).getMark() == board.getSquare(1, 1).getMark() &&
@@ -75,6 +87,7 @@ public class Game {
         }
         return PlayerType.None;
     }
+    
     public PlayerType checkCol(int col) {
         if (board.getSquare(0, col).getMark() == board.getSquare(1, col).getMark() &&
                 board.getSquare(0, col).getMark() == board.getSquare(2, col).getMark()){
@@ -82,8 +95,8 @@ public class Game {
         }
         return PlayerType.None;
     }
+    
     public PlayerType checkRow(int row) {
-        
         
         if (board.getSquare(row, 0).getMark() == board.getSquare(row, 1).getMark() &&
                 board.getSquare(row, 0).getMark() == board.getSquare(row, 2).getMark()) { //row full
@@ -92,6 +105,7 @@ public class Game {
         
         return PlayerType.None;
     }
+    
     public PlayerType playerWon() {
         PlayerType winner;
         for (int i = 0; i < 3; i++) {
