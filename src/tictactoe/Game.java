@@ -1,7 +1,7 @@
 package tictactoe;
 
+import java.util.Observable;
 import tictactoe.GameBoard.Board;
-import tictactoe.GameGui.MainFrame;
 import tictactoe.GamePlayer.Player;
 import tictactoe.GamePlayer.PlayerType;
 
@@ -11,10 +11,9 @@ public class Game {
     private final Player crossPlayer = new Player(board, PlayerType.Cross);
     private final Player circlePlayer = new Player(board, PlayerType.Circle);
     private Player currentPlayer = crossPlayer;
-    private MainFrame frame;
+    public int currentSquare = 0;
     
     public Game() {
-        frame = new MainFrame(this);
     }
     public void togglePlayer() {
         if (currentPlayer.equals(crossPlayer)) {
@@ -27,13 +26,13 @@ public class Game {
         Called when the player clicks on the ith square.
     */
     public void makeMove(int i) {
-        //find what row and col, the i:th square lies on.
-        int row = i/3;
-        int col = i%3;
         
+        int row = i / 3;
+        int col = i % 3;
+        currentSquare = i;
         currentPlayer.makeMove(row, col);
-        frame.markSquare(i, currentPlayer);
-        frame.disableSquare(i);
+       // frame.markSquare(i, currentPlayer);
+        //frame.disableSquare(i);
         togglePlayer();
         display();
     }
@@ -99,6 +98,10 @@ public class Game {
             }
         }
         return checkDiag();
+    }
+
+    public Player getCurrentPlayer() {
+        return currentPlayer;
     }
     
 }
